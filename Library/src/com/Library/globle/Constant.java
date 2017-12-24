@@ -111,4 +111,9 @@ public class Constant {
 	 * 帐号借书信息
 	 */
 	public static String ACCOUNT_BORROW = "account_borrow";
+	
+	/**
+	 * 申请信息
+	 */
+	public static String APPLY_MESSAGE = "apply_message";
 }

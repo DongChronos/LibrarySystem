@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.Library.entity.Admin;
+import com.Library.entity.ApplyInfor;
+import com.Library.entity.BookClassfication;
 import com.Library.entity.BookInfor;
 import com.Library.entity.BorrowInfor;
 import com.Library.entity.Student;
@@ -192,6 +194,13 @@ public class Packager implements Serializable {
 		return bookInfor;
 	}
 	
+	/**
+	 * 对借阅信息进行打包
+	 * @param rs
+	 * @param userInfor
+	 * @param bookInfor
+	 * @return
+	 */
 	public static BorrowInfor packBorrowInfor(ResultSet rs, UserInfor userInfor, BookInfor bookInfor)
 	{
 		BorrowInfor borrowInfor = new BorrowInfor();
@@ -211,5 +220,44 @@ public class Packager implements Serializable {
 			e.printStackTrace();
 		}
 		return borrowInfor;
+	}
+	
+	/**
+	 * 对书籍类型进行打包
+	 * @param rs
+	 * @return
+	 */
+	public static BookClassfication packBookClassfication(ResultSet rs)
+	{
+		BookClassfication bookClassfication = new BookClassfication();
+		try
+		{
+			bookClassfication.setClassficationID(rs.getInt("ClassficationID"));
+			bookClassfication.setClassficationName(rs.getString("ClassficationName"));
+		}
+		catch(SQLException e)
+		{
+			System.out.println("对BookClassfication进行打包发生错误");
+			e.printStackTrace();
+		}
+		return bookClassfication;
+	}
+	
+	public static ApplyInfor packApplyInfor(ResultSet rs)
+	{
+		ApplyInfor applyInfor = new ApplyInfor();
+		try
+		{
+			applyInfor.setUserID(rs.getInt("UserID"));
+			applyInfor.setBookClassfication(rs.getInt("BookClassfication"));
+			applyInfor.setBookName(rs.getString("BookName"));
+			applyInfor.setDate(rs.getDate("Apply"));
+		}
+		catch(SQLException e)
+		{
+			System.out.println("对ApplyInfor进行打包发生错误");
+			e.printStackTrace();
+		}
+		return applyInfor;
 	}
 }

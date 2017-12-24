@@ -1,3 +1,6 @@
+<%@page import="com.Library.dao.jdbc.BookDaoImpl"%>
+<%@page import="com.Library.entity.BookClassfication"%>
+<%@page import="com.Library.dao.BookDao"%>
 <%@page import="com.Library.globle.Constant"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -21,7 +24,7 @@
 		right: 0;
 		top: 0px;
 		padding: 10px;
-		background-color: #262f3c;
+		background-color: #22272e;
 		color: #fff;
 		border-radius: 2px 0 0 2px;
 		text-align: right;
@@ -61,12 +64,21 @@
 		margin-left:200px;
 		text-align: left;
 	}
+	#content{
+	position:absolute;
+	 top:10px;
+	 left:50px;
+	}
+	#content a{
+	  color:yellow;
+	}
 </style>
 </head>
 <body>
 <!--SIGN UP-->
    <div id="st-right">
    	<u><a href="<%=request.getContextPath() + "/infor.jsp"%>">Individual Information</a></u>
+   	<u><a href="<%=request.getContextPath() + "/user_book.jsp"%>">Borrow Information</a></u>
    	<form action="logout.jhtml">
    		<button>Sign Out</button>
    	</form>
@@ -87,6 +99,27 @@
   			<option value="YES">Author</option>
 		</select>
 	  </form>
+	   <div id="content">
+	  	<%
+	  		BookDao bookDao = new BookDaoImpl();
+	  		List<BookClassfication> bookClassfications = bookDao.getBookClassfication();
+	  		int count = 0;
+	  		for(BookClassfication bookType:bookClassfications)
+	  		{
+	  	%>
+	  			<a href="<%=request.getContextPath() + "/search.html?page=&searchInfor=&author=&bookType=" + bookType.getClassficationID()%>"><%=bookType.getClassficationName() %></a>
+	  	<%
+	  			count++;
+	  			if(count == 6)
+	  			{
+	  	%>
+	  				<br>
+	  	<%
+	  				count = 0;
+	  			}
+	  		}
+	  	%>
+	  </div>
 	</div>
 </div>
 <div style="margin-top: 80px;">

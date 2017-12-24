@@ -1,3 +1,5 @@
+<%@page import="com.Library.dao.jdbc.SearchBookDaoImpl"%>
+<%@page import="com.Library.dao.SearchBookDao"%>
 <%@page import="com.Library.entity.BorrowInfor"%>
 <%@page import="com.Library.globle.Constant"%>
 <%@page import="com.Library.entity.*"%>
@@ -10,7 +12,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta name="description" content="Bootstrap Metro Dashboard" /> 
 <meta name="author" content="Dennis Ji" /> 
 <meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina" /> 
 <meta name="viewport" content="width=device-width, initial-scale=1" /> 
@@ -24,7 +25,8 @@
 <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;subset=latin,cyrillic-ext,latin-ext" rel="stylesheet" type="text/css" /> 
 <link rel="shortcut icon" href="img/favicon.ico" />
 <script src="https://cdn.bootcss.com/jquery/1.11.2/jquery.js"></script>
-<title>AdminInterface</title>
+<title>User_Book</title>
+</head>
 <body>
 <style>
 	#infor{
@@ -39,16 +41,20 @@
 		text-align: center;
 	}
 </style>
+
 <%
 	Object object = request.getSession().getAttribute(Constant.USER_KEY);
 	Object userType = request.getSession().getAttribute(Constant.USER_TYPE);
 	UserInfor userInfor = Utils.getUserInfor(object);
+	SearchBookDao searchBookDao = new SearchBookDaoImpl();
+	List<BorrowInfor> borrowInfors = searchBookDao.getBorrowInforByUserID(userInfor.getUserID());
 %>
+
 <div class="navbar"> 
    <div class="navbar-inner"> 
     <div class="container-fluid"> 
      <a class="btn btn-navbar" data-toggle="collapse" data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> 
-     <a class="brand" href="admin.jsp"><span>ADMIN</span></a> 
+     <a class="brand" href="user_book.jsp"><span>User_Book</span></a> 
      <!-- start: Header Menu --> 
      <div class="nav-no-collapse header-nav"> 
       <ul class="nav pull-right"> 
@@ -70,32 +76,19 @@
     <div id="sidebar-left" class="span2"> 
      <div class="nav-collapse sidebar-nav"> 
       <ul class="nav nav-tabs nav-stacked main-menu"> 
-       <li><a href="admin_show.jhtml?index=1&page=1&condition="><i class="icon-bar-chart"></i><span class="hidden-tablet">Book-User</span></a></li> 
-       <li><a href="admin_show.jhtml?index=2&page=1&condition="><i class="icon-envelope"></i><span class="hidden-tablet"> BookInfor_Name</span></a></li> 
-       <li><a href="admin_show.jhtml?index=3&page=1&condition="><i class="icon-tasks"></i><span class="hidden-tablet"> BookInfor_Type</span></a></li> 
-       <li><a href="admin_show.jhtml?index=4&page=1&condition="><i class="icon-eye-open"></i><span class="hidden-tablet"> UserInfor</span></a></li> 
-       <li><a href="admin_show.jhtml?index=5&page=1&condition="><i class="icon-dashboard"></i><span class="hidden-tablet"> Select_Month</span></a></li> 
-       <li><a href="admin_show.jhtml?index=6&page=1&condition="><i class="icon-dashboard"></i><span class="hidden-tablet"> OverTime</span></a></li> 
-       <li><a href="admin_show.jhtml?index=7&page=1&condition="><i class="icon-dashboard"></i><span class="hidden-tablet"> Black_List</span></a></li>
-       <li><a href="return.jhtml?actionType=&page="><i class="icon-dashboard"></i><span class="hidden-tablet"> Return</span></a></li>  
+       <li><a href="user_book.jsp"><i class="icon-dashboard"></i><span class="hidden-tablet"> User_Book</span></a></li>
+       <li><a href="apply.jsp"><i class="icon-dashboard"></i><span class="hidden-tablet"> Apply_Book</span></a></li>
+       <li><a href="index.jsp"><i class="icon-dashboard"></i><span class="hidden-tablet"> Back</span></a></li>  
       </ul> 
      </div> 
     </div> 
     <div id="content" class="span10"> 
-		<form id="form_search" method="get" action="return.jhtml">
-		<input type="text" name="Phone" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}">	
-		<input type="hidden" name="actionType" value="search">
-		<input type="hidden" name="page">
-		<input type="submit"  value="Search" style="margin-top:-12px;"/>
-	  </form>
+	   
 	   <%
-	  	if(request.getAttribute(Constant.ACCOUNT_BORROW) != null)
-	  	{
-	  		PageBean<BorrowInfor> bipageBean = (PageBean<BorrowInfor>) request.getAttribute(Constant.ACCOUNT_BORROW);
-	  		if(bipageBean.getList() != null){
-	  		List<BorrowInfor> borrowInfors = bipageBean.getList();
-	  %>
-	  		<table border="1" id="infor">
+	   		if(borrowInfors.size() > 0)
+	   		{
+	   %>
+	   		<table border="1" id="infor">
 	 		<tr>
 	 			<th style="color:green; margin-top:8px;"><font size="4">RealName</font></th>
 	 			<th style="color:green; margin-top:8px;"><font size="4">BookName</font></th>
@@ -104,33 +97,26 @@
     			<th style="color:green; margin-top:8px;"><font size="4">ReturnDate</font></th>
     			<th style="color:green; margin-top:8px;"><font size="4">Overtime</font></th>
 	 		</tr>
-	  <%
-	  		for(BorrowInfor borrowInfor:borrowInfors)
-	  		{
-	  %>
-	  			<form method="post" action="return.jhtml?">
-		  			<tr>
-		 				<th><font size="4"><%=borrowInfor.getUserInfor().getPeopleName()%></font></th>
-		 				<th><font size="4"><%=borrowInfor.getBookInfor().getBookName()%></font></th>
-		 				<th><font size="4"><%=borrowInfor.getUserInfor().getPhone()%></font></th>
-		 				<th><font size="4"><%=borrowInfor.getStart()%></font></th>
-		 				<th><font size="4"><%=borrowInfor.getFinish()%></font></th>
-		 				<th><font size="4"><%=borrowInfor.isOvertime()%></font></th>
-		 				<th><input type="submit" value="Return" style="text-align: center; width:100%"></th>
-		 			</tr>
-		 			<input type="hidden" name="actionType" value="return">
-		 			<input type="hidden" name="page">
-		 			<input type="hidden" name="Phone" value="<%=borrowInfor.getUserInfor().getPhone()%>">
-		 			<input type="hidden" name="bookID" value="<%=borrowInfor.getBookID()%>">
-		 		</form>
-	  <%
-	  			}
-	  		}
-	  %>
-	  	</table>
-	  <%
-	  	}
-	  %>
+	   <%
+	   		for(BorrowInfor borrowInfor:borrowInfors)
+	   		{
+	   %>
+	   			<tr>
+	   				<th><font size="4"><%=userInfor.getPeopleName()%></font></th>
+	   				<th><font size="4"><%=borrowInfor.getBookInfor().getBookName()%></font></th>
+	 				<th><font size="4"><%=userInfor.getPhone()%></font></th>
+	 				<th><font size="4"><%=borrowInfor.getStart()%></font></th>
+	 				<th><font size="4"><%=borrowInfor.getFinish()%></font></th>
+	 				<th><font size="4"><%=borrowInfor.isOvertime()%></font></th>
+	   			</tr>
+	   <%
+	   		}
+	   %>
+	 		</table>
+	   <%
+	   		}
+	   %>
+	   
 	</div>
     </div>
     <script src="js/jquery-1.9.1.min.js"></script> 
@@ -166,5 +152,6 @@
     <!-- end: JavaScript-->  
    </div>
   </div>
+
 </body>
 </html>

@@ -2,6 +2,7 @@ package com.Library.dao;
 
 import java.util.List;
 
+import com.Library.entity.BookClassfication;
 import com.Library.entity.BookInfor;
 
 /**
@@ -144,4 +145,10 @@ public interface BookDao {
 	 * @return
 	 */
 	int getRowNumOfAuthor(String condition);
+	
+	/**
+	 * 获取所有的书籍类型
+	 * @return
+	 */
+	List<BookClassfication> getBookClassfication();
 }

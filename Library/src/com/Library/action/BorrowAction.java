@@ -70,45 +70,57 @@ public class BorrowAction extends HttpServlet {
 
 	private void forward(HttpServletRequest request, HttpServletResponse response, BookInfor bookInfor, Object object, UserInfor userInfor) throws ServletException, IOException
 	{
-		if(object instanceof Student)
+		if(bookInfor.getBookNumber() > 0)
 		{
-			if(Utils.checkCredit(((Student) object).getUserInfor().getBroBookNumber(), ((Student) object).getCredit()))
+			if(object instanceof Student)
 			{
-				BorrowInfor borrowInfor = new BorrowInfor(userInfor, bookInfor);
-				borrowInfor.setBookID(borrowInfor.getBookInfor().getBookID());
-				borrowInfor.setUserID(borrowInfor.getUserInfor().getUserID());
-				borrowInfor.setStart(this.Start);
-				borrowInfor.setFinish(this.Finish);
-				borrowInfor.setOvertime(false);
-				this.borRutSer.BorrowBook(borrowInfor);
-				((Student) this.object).getUserInfor().setBroBookNumber((((Student) object).getUserInfor().getBroBookNumber() + 1));
-				request.getSession().setAttribute(Constant.USER_KEY, (Student) this.object);
-				request.setAttribute(Constant.BOOK_MESSAGE, "借阅成功");
+				if(Utils.checkCredit(((Student) object).getUserInfor().getBroBookNumber(), ((Student) object).getCredit()))
+				{
+					BorrowInfor borrowInfor = new BorrowInfor(userInfor, bookInfor);
+					borrowInfor.setBookID(borrowInfor.getBookInfor().getBookID());
+					borrowInfor.setUserID(borrowInfor.getUserInfor().getUserID());
+					borrowInfor.setStart(this.Start);
+					borrowInfor.setFinish(this.Finish);
+					borrowInfor.setOvertime(false);
+					this.borRutSer.BorrowBook(borrowInfor);
+					((Student) this.object).getUserInfor().setBroBookNumber((((Student) object).getUserInfor().getBroBookNumber() + 1));
+					request.getSession().setAttribute(Constant.USER_KEY, (Student) this.object);
+					request.setAttribute(Constant.BOOK_MESSAGE, "借阅成功");
+					return;
+				}
+				else
+				{
+					request.setAttribute(Constant.BOOK_MESSAGE, "无法借阅，已经超过你的最大借书量");
+					return;
+				}
 			}
-			else
+			else if(object instanceof Teacher)
 			{
-				request.setAttribute(Constant.BOOK_MESSAGE, "无法借阅，已经超过你的最大借书量");
+				if(Utils.checkCredit(((Teacher) object).getUserInfor().getBroBookNumber(), ((Teacher) object).getCredit()))
+				{
+					BorrowInfor borrowInfor = new BorrowInfor(userInfor, bookInfor);
+					borrowInfor.setBookID(borrowInfor.getBookInfor().getBookID());
+					borrowInfor.setUserID(borrowInfor.getUserInfor().getUserID());
+					borrowInfor.setStart(this.Start);
+					borrowInfor.setFinish(this.Finish);
+					borrowInfor.setOvertime(false);
+					this.borRutSer.BorrowBook(borrowInfor);
+					((Teacher) this.object).getUserInfor().setBroBookNumber((((Teacher) object).getUserInfor().getBroBookNumber() + 1));
+					request.getSession().setAttribute(Constant.USER_KEY, (Teacher) this.object);
+					request.setAttribute(Constant.BOOK_MESSAGE, "借阅成功");
+					return;
+				}
+				else
+				{
+					request.setAttribute(Constant.BOOK_MESSAGE, "无法借阅，已经超过你的最大借书量");
+					return;
+				}
 			}
 		}
-		else if(object instanceof Teacher)
+		else
 		{
-			if(Utils.checkCredit(((Teacher) object).getUserInfor().getBroBookNumber(), ((Teacher) object).getCredit()))
-			{
-				BorrowInfor borrowInfor = new BorrowInfor(userInfor, bookInfor);
-				borrowInfor.setBookID(borrowInfor.getBookInfor().getBookID());
-				borrowInfor.setUserID(borrowInfor.getUserInfor().getUserID());
-				borrowInfor.setStart(this.Start);
-				borrowInfor.setFinish(this.Finish);
-				borrowInfor.setOvertime(false);
-				this.borRutSer.BorrowBook(borrowInfor);
-				((Teacher) this.object).getUserInfor().setBroBookNumber((((Teacher) object).getUserInfor().getBroBookNumber() + 1));
-				request.getSession().setAttribute(Constant.USER_KEY, (Teacher) this.object);
-				request.setAttribute(Constant.BOOK_MESSAGE, "借阅成功");
-			}
-			else
-			{
-				request.setAttribute(Constant.BOOK_MESSAGE, "无法借阅，已经超过你的最大借书量");
-			}
+			request.setAttribute(Constant.BOOK_MESSAGE, "书籍剩余量不足");
+			return;
 		}
 	}
 }

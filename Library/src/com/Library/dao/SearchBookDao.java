@@ -133,4 +133,11 @@ public interface SearchBookDao {
 	 * @return
 	 */
 	List<BorrowInfor> getAlltheBorrowInfor();
+	
+	/**
+	 * 根据用户ID获取借书信息
+	 * @param userID
+	 * @return
+	 */
+	List<BorrowInfor> getBorrowInforByUserID(int userID);
 }

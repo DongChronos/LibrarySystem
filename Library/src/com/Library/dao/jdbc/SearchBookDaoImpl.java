@@ -556,4 +556,38 @@ public class SearchBookDaoImpl extends JDBCBase implements SearchBookDao, Serial
 		}
 		return borrowInfors;
 	}
+
+	@Override
+	public List<BorrowInfor> getBorrowInforByUserID(int userID)
+	{
+		Connection conn=JDBCUtil.getConnection();
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		BookInfor bookInfor = null;
+		List<BorrowInfor> borrowInfors = new ArrayList<BorrowInfor>();
+		
+		String sql = "SELECT * FROM BorrowInfor bri, BookInfor bi"
+				+ " WHERE bri.BookID=bi.BookID AND bri.UserID="+userID;
+		try
+		{
+			conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			ps=conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			rs = query(ps);
+			while(rs.next())
+			{
+				bookInfor = Packager.packBookInfor(rs);
+				borrowInfors.add(Packager.packBorrowInfor(rs, null, bookInfor));
+			}
+		}
+		catch(SQLException e)
+		{
+			System.out.println("根据UserID获取借书信息发生错误");
+			e.printStackTrace();
+		}
+		finally
+		{
+			JDBCUtil.close(rs, ps, conn);
+		}
+		return borrowInfors;
+	}
 }

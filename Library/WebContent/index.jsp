@@ -1,4 +1,8 @@
+<%@page import="com.Library.dao.jdbc.BookDaoImpl"%>
 <%@page import="com.Library.bean.LoginInfor"%>
+<%@page import="com.Library.entity.BookClassfication"%>
+<%@page import="java.util.List"%>
+<%@page import="com.Library.dao.BookDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -16,7 +20,7 @@
 		right: 0;
 		top: 50px;
 		padding: 10px;
-		background-color: #338eff;
+		background-color: #202223;
 		color: #fff;
 		border-radius: 2px 0 0 2px;
 		text-align: right;
@@ -27,7 +31,7 @@
 	#st-right button {
 		height: 25px;
 		border: 0 none;	
-		margin-top: 10px;
+		margin-top: 5px;
 		border-radius: 2px;
 		background-color: #ff8080;
 		color: #fff;
@@ -49,13 +53,17 @@
 		border-radius:8px;
 		outline:none;
 	}
+	#content a {
+	   color:yellow;
+	}
 </style>
 </head>
 <body>
 <!--SIGN UP-->
    <h1><strong>Index</strong></h1> 
    <div id="st-right">
-   	<u><a href="<%=request.getContextPath() + "/infor.jsp"%>">Individual Information</a></u>
+   	<u><a href="<%=request.getContextPath() + "/infor.jsp"%>">Individual Information</a></u><br>
+   	<u><a href="<%=request.getContextPath() + "/user_book.jsp"%>">Borrow Information</a></u>
    	<form action="logout.jhtml">
    		<button>Sign Out</button>
    	</form>
@@ -76,6 +84,19 @@
   			<option value="YES">Author</option>
 		</select>
 	  </form>
+	  
+	  <div id="content">
+	  	<%
+	  		BookDao bookDao = new BookDaoImpl();
+	  		List<BookClassfication> bookClassfications = bookDao.getBookClassfication();
+	  		for(BookClassfication bookType:bookClassfications)
+	  		{
+	  	%>
+	  			<a href="<%=request.getContextPath() + "/search.html?page=&searchInfor=&author=&bookType=" + bookType.getClassficationID()%>"><%=bookType.getClassficationName() %></a>
+	  	<%
+	  		}
+	  	%>
+	  </div>
 	</div>
 </div>
   

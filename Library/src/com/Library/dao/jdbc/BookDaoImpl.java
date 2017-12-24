@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.Library.dao.BookDao;
+import com.Library.entity.BookClassfication;
 import com.Library.entity.BookInfor;
 import com.Library.utils.Packager;
 
@@ -552,4 +553,35 @@ public class BookDaoImpl extends JDBCBase implements Serializable, BookDao {
 		return RowNum;
 	}
 
+	@Override
+	public List<BookClassfication> getBookClassfication()
+	{
+		Connection conn=JDBCUtil.getConnection();
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		List<BookClassfication> bookClassfications = new ArrayList<BookClassfication>();
+		
+		String sql = "SELECT * FROM BookClass";
+		
+		try
+		{
+			conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			ps=conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			rs = query(ps);
+			while(rs.next())
+			{
+				bookClassfications.add(Packager.packBookClassfication(rs));
+			}
+		}
+		catch(SQLException e)
+		{
+			System.out.println("获取所有的书籍类型发生错误");
+			e.printStackTrace();
+		}
+		finally
+		{
+			JDBCUtil.close(rs, ps, conn);
+		}
+		return bookClassfications;
+	}
 }
