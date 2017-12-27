@@ -53,14 +53,14 @@ public class ReturnAction extends HttpServlet {
 			this.Phone = request.getParameter("Phone").trim();
 			if("search".equals(this.actionType))
 			{
-				this.forward(request, response, Phone, false, this.pageNum);
+				this.returnForward(request, response, Phone, false, this.pageNum);
 				request.setAttribute(Constant.ACCOUNT_BORROW, this.bipageBean);
 				request.getRequestDispatcher("/return.jsp").forward(request, response);
 				return;
 			}
 			else if("return".equals(this.actionType))
 			{
-				this.forward(request, response, Phone, true, this.pageNum);
+				this.returnForward(request, response, Phone, true, this.pageNum);
 				response.sendRedirect(request.getContextPath() + "/return.jhtml?Phone=" + this.Phone + "&actionType=search&page=");
 				return;
 			}
@@ -86,7 +86,7 @@ public class ReturnAction extends HttpServlet {
 	 * @param Phone 电话号码
 	 * @param flag false为search行为， true为return行为
 	 */
-	private void forward(HttpServletRequest request, HttpServletResponse response, String Phone, boolean flag, String page)
+	private void returnForward(HttpServletRequest request, HttpServletResponse response, String Phone, boolean flag, String page)
 	{
 		//return操作
 		if(flag)

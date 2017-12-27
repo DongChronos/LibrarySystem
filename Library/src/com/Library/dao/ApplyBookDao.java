@@ -18,6 +18,7 @@ public interface ApplyBookDao {
 	 * @param bookName 书籍名称
 	 * @param bookClassfication 书籍分类
 	 * @param date 申请日期
+	 * @param applyNumber 原本的申请数量
 	 */
 	void InsertApply(int userID, String bookName, int bookClassfication, Date date, int applyNumber);
 	
@@ -27,4 +28,12 @@ public interface ApplyBookDao {
 	 * @return 
 	 */
 	List<ApplyInfor> getApplyInforByUserID(int userID);
+	
+	/**
+	 * 删除申请购书信息
+	 * @param userID 申请人ID
+	 * @param bookName 书籍名称
+	 * @param applyNumber 原本的申请数量
+	 */
+	void deleteApply(int userID, String bookName, int applyNumber);
 }

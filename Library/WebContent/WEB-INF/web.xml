@@ -184,12 +184,20 @@
     <url-pattern>/return.jhtml</url-pattern>
   </servlet-mapping>
   <servlet>
-  	<servlet-name>ApplyAction</servlet-name>
-  	<servlet-class>com.Library.action.ApplyAction</servlet-class>
+    <servlet-name>ApplyAction</servlet-name>
+    <servlet-class>com.Library.action.ApplyAction</servlet-class>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>ApplyAction</servlet-name>
-  	<url-pattern>/apply.html</url-pattern>
+    <servlet-name>ApplyAction</servlet-name>
+    <url-pattern>/apply.html</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>DeleteApplyAction</servlet-name>
+    <servlet-class>com.Library.action.DeleteApplyAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteApplyAction</servlet-name>
+    <url-pattern>/delete_apply.html</url-pattern>
   </servlet-mapping>
   <context-param>
     <param-name>ok_url</param-name>

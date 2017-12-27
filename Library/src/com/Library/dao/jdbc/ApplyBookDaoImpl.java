@@ -73,4 +73,26 @@ public class ApplyBookDaoImpl extends JDBCBase implements ApplyBookDao {
 		return applyInfors;
 	}
 
+	@Override
+	public void deleteApply(int userID, String bookName, int applyNumber) {
+		String sql = "DELETE ApplyBook WHERE UserID=? AND BookName=?";
+		Object[] ABparam = 
+			{
+					userID,
+					bookName
+			};
+		saveOrUpdateOrDelete(sql, ABparam);
+		System.out.println("删除申请购书信息完成");
+		
+		sql = "UPDATE UserInfor SET AppBookNumber=? WHERE UserID=?";
+		Object[] UIparam = 
+			{
+					applyNumber -1,
+					userID
+			};
+		saveOrUpdateOrDelete(sql, UIparam);
+		System.out.println("更新userInfor信息完成");
+		
+	}
+
 }

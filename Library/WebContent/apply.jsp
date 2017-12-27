@@ -123,11 +123,16 @@
 	   		for(ApplyInfor applyInfor:applyInfors)
 	   		{
 	   %>
-	   			<tr>
-	   				<th><font size="4"><%=userInfor.getPeopleName()%></font></th>
-	   				<th><font size="4"><%=applyInfor.getBookName()%></font></th>
-	 				<th><font size="4"><%=userInfor.getPhone()%></font></th>
-	   			</tr>
+	   			<form method="post" action="delete_apply.html">
+		   			<tr>
+		   				<th><font size="4"><%=userInfor.getPeopleName()%></font></th>
+		   				<th><font size="4"><%=applyInfor.getBookName()%></font></th>
+		 				<th><font size="4"><%=userInfor.getPhone()%></font></th>
+		 				<th><input type="submit" value="Delete" style="text-align: center; width:100%"></th>
+		   			</tr>
+		 			<input type="hidden" name="userID" value="<%=userInfor.getUserID()%>">
+		 			<input type="hidden" name="bookName" value="<%=applyInfor.getBookName()%>">
+		   		</form>
 	   <%
 	   		}
 	   %>
