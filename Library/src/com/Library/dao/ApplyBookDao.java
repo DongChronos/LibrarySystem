@@ -36,4 +36,16 @@ public interface ApplyBookDao {
 	 * @param applyNumber 原本的申请数量
 	 */
 	void deleteApply(int userID, String bookName, int applyNumber);
+	
+	/**
+	 * 获取所有的申请信息
+	 */
+	List<ApplyInfor> getAllApplyInfor();
+	
+	/**
+	 * 根据申请书名获取书籍信息
+	 * @param bookName 书的名字
+	 * @return
+	 */
+	List<ApplyInfor> getApplyInforByBookName(String bookName);
 }

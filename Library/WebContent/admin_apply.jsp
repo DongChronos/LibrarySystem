@@ -1,10 +1,10 @@
-<%@page import="com.Library.entity.BorrowInfor"%>
-<%@page import="com.Library.globle.Constant"%>
-<%@page import="com.Library.entity.*"%>
-<%@page import="com.Library.utils.*"%>
+<%@page import="com.Library.entity.ApplyInfor"%>
 <%@page import="com.Library.bean.PageBean"%>
-<%@page import="com.Library.entity.BookInfor"%>
 <%@page import="java.util.List"%>
+<%@page import="com.Library.entity.BorrowInfor"%>
+<%@page import="com.Library.utils.Utils"%>
+<%@page import="com.Library.entity.UserInfor"%>
+<%@page import="com.Library.globle.Constant"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -24,8 +24,10 @@
 <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;subset=latin,cyrillic-ext,latin-ext" rel="stylesheet" type="text/css" /> 
 <link rel="shortcut icon" href="img/favicon.ico" />
 <script src="https://cdn.bootcss.com/jquery/1.11.2/jquery.js"></script>
-<title>AdminInterface</title>
+<title>Admin_Apply</title>
+</head>
 <body>
+
 <style>
 	#infor{
 		margin-top:50px;
@@ -39,6 +41,7 @@
 		text-align: center;
 	}
 </style>
+
 <%
 	Object object = request.getSession().getAttribute(Constant.USER_KEY);
 	Object userType = request.getSession().getAttribute(Constant.USER_TYPE);
@@ -77,61 +80,48 @@
        <li><a href="admin_show.jhtml?index=5&page=1&condition="><i class="icon-dashboard"></i><span class="hidden-tablet"> Select_Month</span></a></li> 
        <li><a href="admin_show.jhtml?index=6&page=1&condition="><i class="icon-dashboard"></i><span class="hidden-tablet"> OverTime</span></a></li> 
        <li><a href="admin_show.jhtml?index=7&page=1&condition="><i class="icon-dashboard"></i><span class="hidden-tablet"> Black_List</span></a></li>
-       <li><a href="return.jhtml?actionType=&page="><i class="icon-dashboard"></i><span class="hidden-tablet"> Return</span></a></li>  
-       <li><a href="admin_apply.jhtml?actionType=show"><i class="icon-dashboard"></i><span class="hidden-tablet"> Apply</span></a></li>
+       <li><a href="return.jhtml?actionType=&page="><i class="icon-dashboard"></i><span class="hidden-tablet"> Return</span></a></li>
+        <li><a href="admin_apply.jhtml?actionType=show"><i class="icon-dashboard"></i><span class="hidden-tablet"> Apply</span></a></li>   
       </ul> 
      </div> 
     </div> 
     <div id="content" class="span10"> 
-		<form id="form_search" method="get" action="return.jhtml">
-		<input type="text" name="Phone" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}">	
+		<form id="form_search" method="get" action="admin_apply.jhtml">
+		<input type="text" name="bookName" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}">	
 		<input type="hidden" name="actionType" value="search">
-		<input type="hidden" name="page">
 		<input type="submit"  value="Search" style="margin-top:-12px;"/>
 	  </form>
-	   <%
-	  	if(request.getAttribute(Constant.ACCOUNT_BORROW) != null)
+	  
+	  <%
+	  	if(request.getAttribute(Constant.APPLY_LIST) != null)
 	  	{
-	  		PageBean<BorrowInfor> bipageBean = (PageBean<BorrowInfor>) request.getAttribute(Constant.ACCOUNT_BORROW);
-	  		if(bipageBean.getList() != null){
-	  		List<BorrowInfor> borrowInfors = bipageBean.getList();
+	  		List<ApplyInfor> applyInfors = (List<ApplyInfor>) request.getAttribute(Constant.APPLY_LIST);
 	  %>
 	  		<table border="1" id="infor">
 	 		<tr>
 	 			<th style="color:green; margin-top:8px;"><font size="4">RealName</font></th>
 	 			<th style="color:green; margin-top:8px;"><font size="4">BookName</font></th>
     			<th style="color:green; margin-top:8px;"><font size="4">Phone</font></th>
-    			<th style="color:green; margin-top:8px;"><font size="4">BorrowDate</font></th>
-    			<th style="color:green; margin-top:8px;"><font size="4">ReturnDate</font></th>
-    			<th style="color:green; margin-top:8px;"><font size="4">Overtime</font></th>
 	 		</tr>
 	  <%
-	  		for(BorrowInfor borrowInfor:borrowInfors)
-	  		{
-	  %>
-	  			<form method="post" action="return.jhtml?">
-		  			<tr>
-		 				<th><font size="4"><%=borrowInfor.getUserInfor().getPeopleName()%></font></th>
-		 				<th><font size="4"><%=borrowInfor.getBookInfor().getBookName()%></font></th>
-		 				<th><font size="4"><%=borrowInfor.getUserInfor().getPhone()%></font></th>
-		 				<th><font size="4"><%=borrowInfor.getStart()%></font></th>
-		 				<th><font size="4"><%=borrowInfor.getFinish()%></font></th>
-		 				<th><font size="4"><%=borrowInfor.isOvertime()%></font></th>
-		 				<th><input type="submit" value="Return" style="text-align: center; width:100%"></th>
-		 			</tr>
-		 			<input type="hidden" name="actionType" value="return">
-		 			<input type="hidden" name="page">
-		 			<input type="hidden" name="Phone" value="<%=borrowInfor.getUserInfor().getPhone()%>">
-		 			<input type="hidden" name="bookID" value="<%=borrowInfor.getBookID()%>">
-		 		</form>
-	  <%
-	  			}
-	  		}
-	  %>
-	  	</table>
-	  <%
+	 		 for(ApplyInfor applyInfor:applyInfors)
+ 			{
+ 	  %>
+ 	  			<form method="post" action="#">
+		   			<tr>
+		   				<th><font size="4"><%=applyInfor.getUserInfor().getPeopleName()%></font></th>
+		   				<th><font size="4"><%=applyInfor.getBookName()%></font></th>
+		 				<th><font size="4"><%=applyInfor.getUserInfor().getPhone()%></font></th>
+		 				<th><input type="submit" value="Insert" style="text-align: center; width:100%"></th>
+		   			</tr>
+		 			<input type="hidden" name="userID" value="<%=applyInfor.getUserInfor().getUserID()%>">
+		 			<input type="hidden" name="bookName" value="<%=applyInfor.getBookName()%>">
+		   		</form>
+ 	  <%
+ 			}
 	  	}
 	  %>
+	  
 	</div>
     </div>
     <script src="js/jquery-1.9.1.min.js"></script> 
@@ -166,5 +156,8 @@
     <script src="js/custom.js"></script> 
     <!-- end: JavaScript-->  
    </div>
+
+
+
 </body>
 </html>

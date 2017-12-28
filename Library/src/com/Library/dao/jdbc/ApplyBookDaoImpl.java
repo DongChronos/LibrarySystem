@@ -9,12 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 import com.Library.dao.ApplyBookDao;
 import com.Library.entity.ApplyInfor;
+import com.Library.entity.UserInfor;
 import com.Library.utils.Packager;
+
+/**
+ * 实现申请书籍表的数据库操作
+ * @author ubuntu
+ *
+ */
 
 public class ApplyBookDaoImpl extends JDBCBase implements ApplyBookDao {
 
 	/**
-	 * 
+	 * 序列号，不可更改
 	 */
 	private static final long serialVersionUID = 7517402884571523067L;
 
@@ -39,7 +46,6 @@ public class ApplyBookDaoImpl extends JDBCBase implements ApplyBookDao {
 			};
 		saveOrUpdateOrDelete(sql, UIparam);
 		System.out.println("保存UserInfor信息完成");
-
 	}
 
 	@Override
@@ -58,7 +64,7 @@ public class ApplyBookDaoImpl extends JDBCBase implements ApplyBookDao {
 			rs = query(ps);
 			while(rs.next())
 			{
-				applyInfors.add(Packager.packApplyInfor(rs));
+				applyInfors.add(Packager.packApplyInfor(rs, null));
 			}
 		}
 		catch(SQLException e)
@@ -95,4 +101,71 @@ public class ApplyBookDaoImpl extends JDBCBase implements ApplyBookDao {
 		
 	}
 
+	
+	@Override
+	public List<ApplyInfor> getAllApplyInfor() {
+		Connection conn=JDBCUtil.getConnection();
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		List<ApplyInfor> applyInfors = new ArrayList<ApplyInfor>();
+		UserInfor userInfor = null;
+		
+		String sql = "SELECT * FROM ApplyBook ab, UserInfor ui WHERE ab.UserID=ui.UserID";
+		
+		try
+		{
+			conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			ps=conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			rs = query(ps);
+			while(rs.next())
+			{
+				userInfor = Packager.packUSerInfor(rs);
+				applyInfors.add(Packager.packApplyInfor(rs, userInfor));
+			}
+		}
+		catch(SQLException e)
+		{
+			System.out.println("获取全部借书信息发生错误");
+			e.printStackTrace();
+		}
+		finally
+		{
+			JDBCUtil.close(rs, ps, conn);
+		}
+		return applyInfors;		
+	}
+
+	@Override
+	public List<ApplyInfor> getApplyInforByBookName(String bookName) {
+		Connection conn=JDBCUtil.getConnection();
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		List<ApplyInfor> applyInfors = new ArrayList<ApplyInfor>();
+		UserInfor userInfor = null;
+		
+		String sql = "SELECT * FROM ApplyBook ab, UserInfor ui WHERE ab.UserID=ui.UserID AND ab.BookName='"+bookName+"'";
+		
+		try
+		{
+			conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			ps=conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			rs = query(ps);
+			
+			while(rs.next())
+			{
+				userInfor = Packager.packUSerInfor(rs);
+				applyInfors.add(Packager.packApplyInfor(rs, userInfor));
+			}
+		}
+		catch(SQLException e)
+		{
+			System.out.println("根据BookName获取借书信息发生错误");
+			e.printStackTrace();
+		}
+		finally
+		{
+			JDBCUtil.close(rs, ps, conn);
+		}
+		return applyInfors;	
+	}
 }

@@ -14,6 +14,7 @@ public class ApplyInfor implements Serializable {
 	private String bookName = null; //申请的书籍名
 	private int bookClassfication = 0; //书籍的类型
 	private Date date = null; //申请时间
+	private UserInfor userInfor = null; //用户信息
 	
 	/**
 	 * 无参构造函数
@@ -96,9 +97,25 @@ public class ApplyInfor implements Serializable {
 		this.bookClassfication = bookClassfication;
 	}
 
+	/**
+	 * 获取用户信息
+	 * @return
+	 */
+	public UserInfor getUserInfor() {
+		return userInfor;
+	}
+
+	/**
+	 * 设置用户信息
+	 * @param userInfor
+	 */
+	public void setUserInfor(UserInfor userInfor) {
+		this.userInfor = userInfor;
+	}
+
 	@Override
 	public String toString() {
 		return "ApplyInfor [userID=" + userID + ", bookName=" + bookName + ", bookClassfication=" + bookClassfication
-				+ ", date=" + date + "]";
-	}	
+				+ ", date=" + date + ", userInfor=" + userInfor + "]";
+	}
 }

@@ -243,7 +243,12 @@ public class Packager implements Serializable {
 		return bookClassfication;
 	}
 	
-	public static ApplyInfor packApplyInfor(ResultSet rs)
+	/**
+	 * 对申请信息进行打包
+	 * @param rs
+	 * @return
+	 */
+	public static ApplyInfor packApplyInfor(ResultSet rs, UserInfor userInfor)
 	{
 		ApplyInfor applyInfor = new ApplyInfor();
 		try
@@ -252,6 +257,7 @@ public class Packager implements Serializable {
 			applyInfor.setBookClassfication(rs.getInt("BookClassfication"));
 			applyInfor.setBookName(rs.getString("BookName"));
 			applyInfor.setDate(rs.getDate("Apply"));
+			applyInfor.setUserInfor(userInfor);
 		}
 		catch(SQLException e)
 		{

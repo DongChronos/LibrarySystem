@@ -113,7 +113,12 @@ public class Constant {
 	public static String ACCOUNT_BORROW = "account_borrow";
 	
 	/**
-	 * 申请信息
+	 * 申请信息的消息
 	 */
 	public static String APPLY_MESSAGE = "apply_message";
+	
+	/**
+	 * 申请信息的内容
+	 */
+	public static String APPLY_LIST = "apply_list";
 }

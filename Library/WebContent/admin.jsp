@@ -79,6 +79,7 @@
        <li><a href="admin_show.jhtml?index=6&page=1&condition="><i class="icon-dashboard"></i><span class="hidden-tablet"> OverTime</span></a></li> 
        <li><a href="admin_show.jhtml?index=7&page=1&condition="><i class="icon-dashboard"></i><span class="hidden-tablet"> Black_List</span></a></li>
        <li><a href="return.jhtml?actionType=&page="><i class="icon-dashboard"></i><span class="hidden-tablet"> Return</span></a></li>  
+       <li><a href="admin_apply.jhtml?actionType=show"><i class="icon-dashboard"></i><span class="hidden-tablet"> Apply</span></a></li>  
       </ul> 
      </div> 
     </div> 

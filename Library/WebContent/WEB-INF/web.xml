@@ -103,6 +103,18 @@
     <filter-name>PowerFilter</filter-name>
     <url-pattern>/insertApply.html</url-pattern>
   </filter-mapping>
+  <filter-mapping>
+    <filter-name>PowerFilter</filter-name>
+    <url-pattern>/admin_apply.jhtml</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>PowerFilter</filter-name>
+    <url-pattern>/admin_apply.jsp</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>PowerFilter</filter-name>
+    <url-pattern>/admin_apply.html</url-pattern>
+  </filter-mapping>
   <servlet>
     <servlet-name>RegisterAction</servlet-name>
     <servlet-class>com.Library.action.RegisterAction</servlet-class>
@@ -198,6 +210,14 @@
   <servlet-mapping>
     <servlet-name>DeleteApplyAction</servlet-name>
     <url-pattern>/delete_apply.html</url-pattern>
+  </servlet-mapping>
+  <servlet>
+  	<servlet-name>AdminApplyAction</servlet-name>
+  	<servlet-class>com.Library.action.AdminApplyAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>AdminApplyAction</servlet-name>
+  	<url-pattern>/admin_apply.jhtml</url-pattern>
   </servlet-mapping>
   <context-param>
     <param-name>ok_url</param-name>
