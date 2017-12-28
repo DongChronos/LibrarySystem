@@ -13,7 +13,7 @@ import com.Library.globle.Constant;
 import com.Library.utils.Utils;
 
 /**
- * Servlet implementation class DeleteApplyAction
+ * 用户实现删除申请书籍的操作
  */
 @WebServlet("/DeleteApplyAction")
 public class DeleteApplyAction extends HttpServlet {
