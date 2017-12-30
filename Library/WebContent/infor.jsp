@@ -190,20 +190,20 @@
                 <span id="BookSpan"><%=userInfor.getBroBookNumber()%></span>
                 <%if(Sobj != null){%>
                 		 <h4 id="email">Max Borrow book:</h4>
-                         <span id="BookSpan"><%=Sobj.getCredit()%></span>
+                         <span id="BookSpan"><%=Sobj.getBorCredit()%></span>
                          
                          <h4 id="email">Max Apply Book:</h4>
-                         <span id="BookSpan"><%=Sobj.getBorCredit()%></span>
+                         <span id="BookSpan"><%=Sobj.getCredit()%></span>
                          
                          <h4 id="email">Experience:</h4>
                          <span id="BookSpan"><%=Sobj.getExperience()%></span>
                 <%}%>
                 <%if(Tobj != null){%>
                 		 <h4 id="email">Max Borrow book:</h4>
-                         <span id="BookSpan"><%=Tobj.getCredit()%></span>
+                         <span id="BookSpan"><%=Tobj.getBorCredit()%></span>
                          
                          <h4 id="email">Max Apply Book:</h4>
-                         <span id="BookSpan"><%=Tobj.getBorCredit()%></span>
+                         <span id="BookSpan"><%=Tobj.getCredit()%></span>
                          
                          <h4 id="email">Experience:</h4>
                          <span id="BookSpan"><%=Tobj.getExperience()%></span>

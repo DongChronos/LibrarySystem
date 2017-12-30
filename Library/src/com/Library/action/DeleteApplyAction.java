@@ -6,14 +6,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.Library.dao.ApplyBookDao;
 import com.Library.dao.jdbc.ApplyBookDaoImpl;
+import com.Library.entity.Student;
+import com.Library.entity.Teacher;
 import com.Library.globle.Constant;
 import com.Library.utils.Utils;
 
 /**
- * 用户实现删除申请书籍的操作
+ * Servlet implementation class DeleteApplyAction
  */
 @WebServlet("/DeleteApplyAction")
 public class DeleteApplyAction extends HttpServlet {
@@ -41,6 +44,7 @@ public class DeleteApplyAction extends HttpServlet {
 		this.bookName = request.getParameter("bookName").trim();
 		this.applyBookDao.deleteApply(Integer.parseInt(userID), bookName, Utils.getUserInfor(object).getAppBookNumber());
 		request.setAttribute(Constant.APPLY_MESSAGE, "取消申请成功");
+		this.saveSessionInfor(request,object);
 		request.getRequestDispatcher("/apply.jsp").forward(request, response);		
 	}
 
@@ -52,4 +56,23 @@ public class DeleteApplyAction extends HttpServlet {
 		doGet(request, response);
 	}
 
+	/**
+	 * 申请书籍完成对session中的user对象进行更新
+	 * @param request
+	 * @param object 用户对象
+	 */
+	private void saveSessionInfor(HttpServletRequest request,Object object)
+	{
+		HttpSession session = request.getSession();
+		if(object instanceof Student)
+		{
+			((Student) object).getUserInfor().setAppBookNumber(Utils.getUserInfor(object).getAppBookNumber()-1);
+			session.setAttribute(Constant.USER_KEY, (Student) object);
+		}
+		else
+		{
+			((Teacher) object).getUserInfor().setAppBookNumber(Utils.getUserInfor(object).getAppBookNumber()-1);
+			session.setAttribute(Constant.USER_KEY, (Teacher) object);
+		}
+	}
 }

@@ -26,13 +26,14 @@ public class ApplyBookDaoImpl extends JDBCBase implements ApplyBookDao {
 	private static final long serialVersionUID = 7517402884571523067L;
 
 	@Override
-	public void InsertApply(int userID, String bookName, int bookClassfication, Date date, int applyNumber) {
-		String sql = "INSERT INTO ApplyBook(UserID, BookClassfication, BookName, Apply) VALUES(?,?,?,?)";
+	public void InsertApply(int userID, String bookName, String bookAuthor, int bookClassfication, Date date, int applyNumber) {
+		String sql = "INSERT INTO ApplyBook(UserID, BookClassfication, BookName, BookAuthor, Apply) VALUES(?,?,?,?,?)";
 		Object[] ABparam = 
 			{
 				userID,
 				bookClassfication,
 				bookName,
+				bookAuthor,
 				date
 			};
 		saveOrUpdateOrDelete(sql, ABparam);
@@ -167,5 +168,39 @@ public class ApplyBookDaoImpl extends JDBCBase implements ApplyBookDao {
 			JDBCUtil.close(rs, ps, conn);
 		}
 		return applyInfors;	
+	}
+
+	@Override
+	public ApplyInfor getApplyInforByUserIDAndBookName(int userID, String bookName) {
+		Connection conn=JDBCUtil.getConnection();
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		ApplyInfor applyInfor = null;
+		
+		String sql = "SELECT * FROM ApplyBook WHERE UserID=? AND BookName=?";
+		Object[] ABparam = 
+			{
+				userID,
+				bookName
+			};
+		try
+		{
+			ps = conn.prepareStatement(sql);
+			rs = query(ps,ABparam);
+			if(rs.next())
+			{
+				applyInfor = Packager.packApplyInfor(rs, null);
+			}
+		}
+		catch(SQLException e)
+		{
+			System.out.println("根据UserID以及BookName查找申请信息发生错误");
+			e.printStackTrace();
+		}
+		finally
+		{
+			JDBCUtil.close(rs, ps, conn);
+		}
+		return applyInfor;
 	}
 }

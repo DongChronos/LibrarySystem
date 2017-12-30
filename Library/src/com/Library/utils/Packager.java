@@ -126,7 +126,7 @@ public class Packager implements Serializable {
 			student.setStudentCredit(rs.getInt("StudentCreditID"));
 			student.setExperience(rs.getInt("Experience"));
 			student.setBorCredit(rs.getInt("BorCredit"));
-			student.setCredit(rs.getInt("BorCredit"));
+			student.setCredit(rs.getInt("Credit"));
 			student.setUserConnection(userConnection);
 			student.setUserInfor(userInfor);
 		}
@@ -256,6 +256,7 @@ public class Packager implements Serializable {
 			applyInfor.setUserID(rs.getInt("UserID"));
 			applyInfor.setBookClassfication(rs.getInt("BookClassfication"));
 			applyInfor.setBookName(rs.getString("BookName"));
+			applyInfor.setBookAuthor(rs.getString("BookAuthor"));
 			applyInfor.setDate(rs.getDate("Apply"));
 			applyInfor.setUserInfor(userInfor);
 		}

@@ -227,8 +227,8 @@ create table StudentInfor
 create table StudentCredit
 (
 	StudentCreditID int primary key NOT NULL, --学生信用ID
-	BorCredit int NOT NULL, --可以申请购买书的数量
-	Credit int NOT NULL --可以借的数的数量
+	BorCredit int NOT NULL, --可以借购买书的数量
+	Credit int NOT NULL --可以申请的数的数量
 );
 -----------------------------
 --初始化学生信用表
@@ -321,6 +321,7 @@ create table ApplyBook
 	UserID int NOT NULL, --申请人的ID
 	BookClassfication int NOT NULL, --书籍类型
 	BookName varchar(128) NOT NULL, --图书名称
+	BookAuthor varchar(128) NOT NULL, --书籍的作者
 	Apply date  NOT NULL --申请时间
 );
 

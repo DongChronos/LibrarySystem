@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.Library.dao.ApplyBookDao;
 import com.Library.dao.jdbc.ApplyBookDaoImpl;
@@ -26,6 +27,7 @@ public class ApplyAction extends HttpServlet {
 	
 	private String bookName = null; //书的名字
 	private String bookClassfication = null; //书的类型
+	private String bookAuthor = null; //书籍的作者
 	private int userID = 0; //用户ID
 	private Date date = null; //当前日期
 	private ApplyBookDao applyBookDao = new ApplyBookDaoImpl(); //书籍数据库操作
@@ -46,27 +48,37 @@ public class ApplyAction extends HttpServlet {
 		this.object = request.getSession().getAttribute(Constant.USER_KEY);
 		this.bookName = request.getParameter("bookName");
 		this.bookClassfication = request.getParameter("bookType");
+		this.bookAuthor = request.getParameter("bookAuthor").trim();
 		this.userID = Utils.getUserInfor(object).getUserID();
 		this.date = Utils.CalendarToDate(Calendar.getInstance());
 		
-		if(object instanceof Student)
+		if(this.isExist(userID ,bookName))
 		{
-			this.applyNumber = ((Student) object).getBorCredit();
+			if(object instanceof Student)
+			{
+				this.applyNumber = ((Student) object).getCredit();
+			}
+			else
+			{
+				this.applyNumber = ((Teacher) object).getCredit();
+			}
+			if(Utils.getUserInfor(object).getAppBookNumber() < this.applyNumber)
+			{
+				applyBookDao.InsertApply(userID, bookName, bookAuthor, Integer.parseInt(bookClassfication), date, Utils.getUserInfor(object).getAppBookNumber());
+				request.setAttribute(Constant.APPLY_MESSAGE, "申请成功");
+				this.saveSessionInfor(request,object);
+				request.getRequestDispatcher("/apply.jsp").forward(request, response);
+				return;
+			}
+			else
+			{
+				request.setAttribute(Constant.APPLY_MESSAGE, "申请失败，已经超过你可以申请的数量");
+				request.getRequestDispatcher("/apply.jsp").forward(request, response);
+			}
 		}
 		else
 		{
-			this.applyNumber = ((Teacher) object).getBorCredit();
-		}
-		if(Utils.getUserInfor(object).getAppBookNumber() < this.applyNumber)
-		{
-			applyBookDao.InsertApply(userID, bookName, Integer.parseInt(bookClassfication), date, Utils.getUserInfor(object).getAppBookNumber());
-			request.setAttribute(Constant.APPLY_MESSAGE, "申请成功");
-			request.getRequestDispatcher("/apply.jsp").forward(request, response);
-			return;
-		}
-		else
-		{
-			request.setAttribute(Constant.APPLY_MESSAGE, "申请失败，已经超过你可以申请的数量");
+			request.setAttribute(Constant.APPLY_MESSAGE, "该书已经申请过");
 			request.getRequestDispatcher("/apply.jsp").forward(request, response);
 		}
 		
@@ -78,5 +90,37 @@ public class ApplyAction extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+	}
+	
+	/**
+	 * 申请书籍完成对session中的user对象进行更新
+	 * @param request
+	 * @param object 用户对象
+	 */
+	private void saveSessionInfor(HttpServletRequest request,Object object)
+	{
+		HttpSession session = request.getSession();
+		if(object instanceof Student)
+		{
+			((Student) object).getUserInfor().setAppBookNumber(Utils.getUserInfor(object).getAppBookNumber()+1);
+			session.setAttribute(Constant.USER_KEY, (Student) object);
+		}
+		else
+		{
+			((Teacher) object).getUserInfor().setAppBookNumber(Utils.getUserInfor(object).getAppBookNumber()+1);
+			session.setAttribute(Constant.USER_KEY, (Teacher) object);
+		}
+	}
+
+	/**
+	 * 该用户是否已经申请过该书
+	 * @param bookName
+	 * @return
+	 */
+	private boolean isExist(int userID, String bookName)
+	{
+		Object object = null;
+		object = this.applyBookDao.getApplyInforByUserIDAndBookName(userID, bookName);
+		return object == null;
 	}
 }

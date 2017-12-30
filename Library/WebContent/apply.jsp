@@ -90,8 +90,24 @@
     </div> 
     <div id="content" class="span10"> 
     <div>
+    <div style="text-align: center">
+	 	<%
+    		if(request.getAttribute(Constant.APPLY_MESSAGE) != null)
+    		{
+    	%>
+    			<%=request.getAttribute(Constant.APPLY_MESSAGE) %>
+    	<%
+    		}
+    	%>
+	   
+	    <%
+	   		if(applyInfors.size() > 0)
+	   		{
+	    %>
+	   </div>
 	   <form method="get" action="apply.html" id="applyinfor">
-		<input type="text" name="bookName" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}">	
+		<input type="text" name="bookName" value="" placeholder="Book Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}">
+		<input type="text" name="bookAuthor" value="" placeholder="Book Author" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}">	
 		<select name="bookType">
   			<option value="1">玄幻</option>
   			<option value="2">奇幻</option>
@@ -108,15 +124,11 @@
 		</select>
 		<input id="sub" type="submit" class="btn btn-primary" value="Apply"/>
 	  </form>
-	   
-	   <%
-	   		if(applyInfors.size() > 0)
-	   		{
-	   %>
 	   		<table border="1" id="infor">
 	 		<tr>
 	 			<th style="color:green; margin-top:8px;"><font size="4">RealName</font></th>
 	 			<th style="color:green; margin-top:8px;"><font size="4">BookName</font></th>
+	 			<th style="color:green; margin-top:8px;"><font size="4">BookAuthor</font></th>
     			<th style="color:green; margin-top:8px;"><font size="4">Phone</font></th>
 	 		</tr>
 	   <%
@@ -127,6 +139,7 @@
 		   			<tr>
 		   				<th><font size="4"><%=userInfor.getPeopleName()%></font></th>
 		   				<th><font size="4"><%=applyInfor.getBookName()%></font></th>
+		   				<th><font size="4"><%=applyInfor.getBookAuthor()%></font></th>
 		 				<th><font size="4"><%=userInfor.getPhone()%></font></th>
 		 				<th><input type="submit" value="Delete" style="text-align: center; width:100%"></th>
 		   			</tr>

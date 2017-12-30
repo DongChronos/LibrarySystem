@@ -12,6 +12,7 @@ public class ApplyInfor implements Serializable {
 
 	private int userID = 0; //用户ID
 	private String bookName = null; //申请的书籍名
+	private String bookAuthor = null; //书籍作者
 	private int bookClassfication = 0; //书籍的类型
 	private Date date = null; //申请时间
 	private UserInfor userInfor = null; //用户信息
@@ -64,6 +65,22 @@ public class ApplyInfor implements Serializable {
 	public void setBookName(String bookName) {
 		this.bookName = bookName;
 	}
+	
+	/**
+	 * 获取书籍作者
+	 * @return
+	 */
+	public String getBookAuthor() {
+		return bookAuthor;
+	}
+
+	/**
+	 * 设置书籍作者
+	 * @param bookAuthor
+	 */
+	public void setBookAuthor(String bookAuthor) {
+		this.bookAuthor = bookAuthor;
+	}
 
 	/**
 	 * 获取申请时间
@@ -115,7 +132,7 @@ public class ApplyInfor implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ApplyInfor [userID=" + userID + ", bookName=" + bookName + ", bookClassfication=" + bookClassfication
-				+ ", date=" + date + ", userInfor=" + userInfor + "]";
+		return "ApplyInfor [userID=" + userID + ", bookName=" + bookName + ", bookAuthor=" + bookAuthor
+				+ ", bookClassfication=" + bookClassfication + ", date=" + date + ", userInfor=" + userInfor + "]";
 	}
 }

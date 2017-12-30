@@ -101,21 +101,28 @@
 	 		<tr>
 	 			<th style="color:green; margin-top:8px;"><font size="4">RealName</font></th>
 	 			<th style="color:green; margin-top:8px;"><font size="4">BookName</font></th>
+	 			<th style="color:green; margin-top:8px;"><font size="4">BookAuthor</font></th>
     			<th style="color:green; margin-top:8px;"><font size="4">Phone</font></th>
+    			<th style="color:green; margin-top:8px;"><font size="4">BookNumber</font></th>
+    			<th style="color:green; margin-top:8px;"><font size="4">WordNumber</font></th>
 	 		</tr>
 	  <%
 	 		 for(ApplyInfor applyInfor:applyInfors)
  			{
  	  %>
- 	  			<form method="post" action="#">
+ 	  			<form method="post" action="admin_apply.jhtml?actionType=insert">
 		   			<tr>
 		   				<th><font size="4"><%=applyInfor.getUserInfor().getPeopleName()%></font></th>
 		   				<th><font size="4"><%=applyInfor.getBookName()%></font></th>
+		   				<th><font size="4"><%=applyInfor.getBookAuthor()%></font></th>
 		 				<th><font size="4"><%=applyInfor.getUserInfor().getPhone()%></font></th>
+		 				<th><input type="text" name="bookNumber"></th>
+		 				<th><input type="text" name="wordNumber"></th>
 		 				<th><input type="submit" value="Insert" style="text-align: center; width:100%"></th>
 		   			</tr>
 		 			<input type="hidden" name="userID" value="<%=applyInfor.getUserInfor().getUserID()%>">
 		 			<input type="hidden" name="bookName" value="<%=applyInfor.getBookName()%>">
+		 			<input type="hidden" name="bookType" value="<%=applyInfor.getBookClassfication()%>">
 		   		</form>
  	  <%
  			}
