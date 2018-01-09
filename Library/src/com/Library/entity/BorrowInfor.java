@@ -168,6 +168,7 @@ public class BorrowInfor implements Serializable {
 	@Override
 	public String toString() {
 		return "BorrowInfor [userID=" + userID + ", bookID=" + bookID + ", Start=" + Start + ", Finish=" + Finish
-				+ ", Overtime=" + Overtime + ", userInfor=" + userInfor + ", bookInfor=" + bookInfor + "]";
+				+ ", Overtime=" + Overtime + ", userInfor=" + userInfor + ", bookInfor="
+				+ bookInfor + "]";
 	}
 }

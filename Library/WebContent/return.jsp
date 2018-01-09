@@ -104,6 +104,7 @@
     			<th style="color:green; margin-top:8px;"><font size="4">BorrowDate</font></th>
     			<th style="color:green; margin-top:8px;"><font size="4">ReturnDate</font></th>
     			<th style="color:green; margin-top:8px;"><font size="4">Overtime</font></th>
+    			<th style="color:green; margin-top:8px;"><font size="4">Penalty</font></th>
 	 		</tr>
 	  <%
 	  		for(BorrowInfor borrowInfor:borrowInfors)
@@ -117,6 +118,7 @@
 		 				<th><font size="4"><%=borrowInfor.getStart()%></font></th>
 		 				<th><font size="4"><%=borrowInfor.getFinish()%></font></th>
 		 				<th><font size="4"><%=borrowInfor.isOvertime()%></font></th>
+		 				<th><font size="4"><%=Utils.getPenalty(borrowInfor.getFinish())%></font></th>
 		 				<th><input type="submit" value="Return" style="text-align: center; width:100%"></th>
 		 			</tr>
 		 			<input type="hidden" name="actionType" value="return">

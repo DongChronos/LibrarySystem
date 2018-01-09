@@ -203,4 +203,38 @@ public class ApplyBookDaoImpl extends JDBCBase implements ApplyBookDao {
 		}
 		return applyInfor;
 	}
+
+	@Override
+	public List<Integer> getUserIDBybookName(String bookName) {
+		Connection conn=JDBCUtil.getConnection();
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		List<Integer> userIDs = new ArrayList<Integer>();
+		
+		String sql = "SELECT * FROM ApplyBook WHERE BookName=?";
+		Object[] ABparam = 
+			{
+				bookName	
+			};
+		try
+		{
+			conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			ps=conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			rs = query(ps, ABparam);
+			while(rs.next())
+			{
+				userIDs.add(rs.getInt("UserID"));
+			}
+		}
+		catch(SQLException e)
+		{
+			System.out.println("根据BookName获取UserID发生错误");
+			e.printStackTrace();
+		}
+		finally
+		{
+			JDBCUtil.close(rs, ps, conn);
+		}
+		return userIDs;
+	}
 }

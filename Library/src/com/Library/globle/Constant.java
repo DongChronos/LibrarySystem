@@ -121,4 +121,9 @@ public class Constant {
 	 * 申请信息的内容
 	 */
 	public static String APPLY_LIST = "apply_list";
+	
+	/**
+	 * 超时每天的罚款
+	 */
+	public static int PENALTY = 1;
 }

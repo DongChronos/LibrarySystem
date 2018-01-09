@@ -203,6 +203,7 @@
     			<th style="color:green; margin-top:8px;"><font size="4">ReturnDate</font></th>
     			<th style="color:green; margin-top:8px;"><font size="4">isOvertime</font></th>
     			<th style="color:green; margin-top:8px;"><font size="4">Phone</font></th>
+    			<th style="color:green; margin-top:8px;"><font size="4">Penalty</font></th>
 	 		</tr>
 	 <%
 	 		for(BorrowInfor borrowInfor:borrowInfors){%>
@@ -213,6 +214,7 @@
 	 				<th><font size="4"><%=borrowInfor.getFinish() %></font></th>
 	 				<th><font size="4"><%=borrowInfor.isOvertime() %></font></th>
 	 				<th><font size="4"><%=borrowInfor.getUserInfor().getPhone() %></font></th>
+	 				<th><font size="4"><%=Utils.getPenalty(borrowInfor.getFinish())%></font></th>
 	 			</tr>	 
 	 <%
 	 	}

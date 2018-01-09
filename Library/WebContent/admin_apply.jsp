@@ -103,31 +103,75 @@
 	 			<th style="color:green; margin-top:8px;"><font size="4">BookName</font></th>
 	 			<th style="color:green; margin-top:8px;"><font size="4">BookAuthor</font></th>
     			<th style="color:green; margin-top:8px;"><font size="4">Phone</font></th>
-    			<th style="color:green; margin-top:8px;"><font size="4">BookNumber</font></th>
-    			<th style="color:green; margin-top:8px;"><font size="4">WordNumber</font></th>
 	 		</tr>
 	  <%
 	 		 for(ApplyInfor applyInfor:applyInfors)
  			{
  	  %>
- 	  			<form method="post" action="admin_apply.jhtml?actionType=insert">
-		   			<tr>
+ 	  			<form method="post" action="#">
+		   			<tr id="formTh">
 		   				<th><font size="4"><%=applyInfor.getUserInfor().getPeopleName()%></font></th>
 		   				<th><font size="4"><%=applyInfor.getBookName()%></font></th>
 		   				<th><font size="4"><%=applyInfor.getBookAuthor()%></font></th>
 		 				<th><font size="4"><%=applyInfor.getUserInfor().getPhone()%></font></th>
-		 				<th><input type="text" name="bookNumber"></th>
-		 				<th><input type="text" name="wordNumber"></th>
-		 				<th><input type="submit" value="Insert" style="text-align: center; width:100%"></th>
+		 				<th><input class="btn-lg modelDemo" id="" type="submit" value="Insert" style="outline: none; text-align: center; width:100%" data-toggle="modal" data-target="#myModal"></th>
 		   			</tr>
 		 			<input type="hidden" name="userID" value="<%=applyInfor.getUserInfor().getUserID()%>">
 		 			<input type="hidden" name="bookName" value="<%=applyInfor.getBookName()%>">
 		 			<input type="hidden" name="bookType" value="<%=applyInfor.getBookClassfication()%>">
+		 			<input type="hidden" name="bookAuthor" value="<%=applyInfor.getBookAuthor()%>">
 		   		</form>
  	  <%
  			}
 	  	}
 	  %>
+	  
+	  <form action="#" method="post" style="z-index:1000;">
+        <!-- 模态框（Modal） -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 style="margin-left:30%;">住宿信息登记表</h3>
+                    </div>
+                    <div class="modal-body form-inline" style="line-height:20px;">
+                        <span>姓名:</span>
+                        <input type="text" class="form-control " id="name"  name="userName" id="firstname" placeholder="请输入名字">
+                        </br>
+                        </br>
+                        <span>书名:</span>
+                        <input type="text" class="form-control id="bookName" " name="bookName" id="idCard" placeholder="请输入身份证号">
+                        </br>
+                        </br>
+                        <span>作者:</span>
+                        <input type="text" class="form-control " id="author" name="bookAuthor" id="phoneNumber" placeholder="请输入手机号码">
+                        </br>
+                        </br>
+                        <span>简介:</span>
+                        <input type="text" class="form-control " id="jianjie" name="bookIntro" id="room" placeholder="请输入房间号">
+                        </br>
+                        </br>
+                        <span>书的数量:</span>
+                        <input type="text" class="form-control datepicker" id="number" name="bookNumber" id="stayStart" placeholder="请输入入住时间">
+                        </br>
+                        </br>
+                        <span>书籍字数:</span>
+                        <input type="text" class="form-control datepicker2" id="zishu" name="wordNumber" id="stayEnd" placeholder="请输入退房时间">
+                        </br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" style="outline: none;" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="submit" style="outline: none;" class="btn btn-primary">
+                            提交信息
+                        </button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal -->
+        </div>
+    </form>
 	  
 	</div>
     </div>
@@ -164,6 +208,13 @@
     <!-- end: JavaScript-->  
    </div>
 
+<script>
+	$(document).ready(function(){
+		$('.modelDemo').click(function(){
+			$('#name').val($('#formTh th:eq(0)').html());
+		})
+	})
+</script>
 
 
 </body>

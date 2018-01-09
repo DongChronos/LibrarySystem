@@ -15,6 +15,7 @@ import com.Library.entity.Admin;
 import com.Library.entity.Student;
 import com.Library.entity.Teacher;
 import com.Library.entity.UserInfor;
+import com.Library.globle.Constant;
 
 /**
  * 静态工具类
@@ -223,5 +224,25 @@ public class Utils implements Serializable {
 			flag = true;
 		}		
 		return flag;
+	}
+	
+	/**
+	 * 获取罚金
+	 * @return
+	 */
+	public static int getPenalty(Date date)
+	{
+		//获取当前时间
+		Calendar nowCalendar = Calendar.getInstance();
+		
+		//将sqlDate转换为Calendar
+		Calendar finCalendar = Calendar.getInstance();
+		finCalendar.setTime(date);
+		int penalty = (int)((nowCalendar.getTimeInMillis()-finCalendar.getTimeInMillis())/(3600*24*1000))*Constant.PENALTY;	
+		if(penalty < 0)
+		{
+			penalty = 0;
+		}
+		return penalty;
 	}
 }

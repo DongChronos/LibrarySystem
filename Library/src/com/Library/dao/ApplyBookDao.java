@@ -24,12 +24,19 @@ public interface ApplyBookDao {
 	void InsertApply(int userID, String bookName, String bookAuthor, int bookClassfication, Date date, int applyNumber);
 	
 	/**
-	 * 删除申请购书信息
+	 * 删除申请购书信息(对于个人操作)[删除一本]
 	 * @param userID 申请人ID
 	 * @param bookName 书籍名称
 	 * @param applyNumber 原本的申请数量
 	 */
 	void deleteApply(int userID, String bookName, int applyNumber);
+	
+	/**
+	 * 获取申请的用户ID通过书籍名称
+	 * @param bookName
+	 * @return
+	 */
+	List<Integer> getUserIDBybookName(String bookName);
 	
 	/**
 	 * 根据UserID以及BookName获取申请购书信息对象
